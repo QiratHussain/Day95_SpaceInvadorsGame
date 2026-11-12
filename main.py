@@ -19,7 +19,11 @@ for positions in BRICKS_POSITIONS:
 for positions in ENEMY_POSITIONS:
     Enemy(position= positions)
 
-# TODO: 4. create enemy ships
+# -------------------------- MOVEMENTS -----------------------------
+screen.onkey(mainlead.move_left,'f')
+screen.onkey(mainlead.move_right,'j')
+
+
 # TODO: 5. create bombing function
 # TODO: 6. remove the boundary when bomb strikes
 # TODO: 7. remove the player turtle when bomb strikes

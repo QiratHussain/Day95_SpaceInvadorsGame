@@ -10,6 +10,12 @@ class Player(Turtle):
         self.setheading(90)
         self.goto((0, -260))
 
+    def move_left(self):
+        self.goto((self.xcor()-10, self.ycor()))
+
+    def move_right(self):
+        self.goto((self.xcor()+10, self.ycor()))
+
 class Brick(Turtle):
     def __init__(self, position):
         super().__init__()
