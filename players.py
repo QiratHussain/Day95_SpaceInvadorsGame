@@ -19,3 +19,12 @@ class Brick(Turtle):
         self.shapesize(2, 1)
         self.goto(position)
 
+class Enemy(Turtle):
+    def __init__(self, position):
+        super().__init__()
+        self.color("red")
+        self.penup()
+        self.setheading(90)
+        self.shape('square')
+        self.shapesize(2, 1)
+        self.goto(position)
