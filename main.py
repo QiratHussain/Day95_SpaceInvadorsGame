@@ -1,6 +1,7 @@
 from turtle import Screen
 from players import Player, Brick, Enemy
 import time
+import random
 
 BRICKS_POSITIONS= [(275, 0),(250,0), (225,0),(200,0),(175,0), (150,0),(125,0),(100,0),(75,0),(50,0),(25,0),(0,0),
 (-275, 0),(-250,0), (-225,0),(-200,0),(-175,0), (-150,0),(-125,0),(-100,0),(-75,0),(-50,0),(-25,0)]
@@ -17,8 +18,9 @@ screen.listen()
 # -------------------------- PLAYERS -----------------------------
 mainlead= Player()
 enemies= []
-for positions in BRICKS_POSITIONS:
-    Brick(position= positions)
+
+bricks = [Brick(position=p) for p in BRICKS_POSITIONS]  
+bombs = []
 
 for positions in ENEMY_POSITIONS:
     enemy= Enemy(position= positions)
@@ -38,8 +40,35 @@ while GAME_ON:
     for e in enemies:
         e.move(step)
 
-# TODO: 5. create bombing function
-# TODO: 6. remove the boundary when bomb strikes
-# TODO: 7. remove the player turtle when bomb strikes
+    if len(bombs) < 5 and random.random() < 0.1:
+        bombs.append(random.choice(enemies).bomb())
+
+    for bomb in bombs[:]:               # iterate over a copy, since we remove inside the loop
+        bomb.move()
+        destroyed = False
+
+        # TODO 6: bomb destroys a brick
+        for brick in bricks[:]:
+            if bomb.distance(brick) < 25:
+                brick.hideturtle()
+                bricks.remove(brick)
+                destroyed = True
+                break
+
+        # TODO 7: bomb hits the player
+        if not destroyed and bomb.distance(mainlead) < 25:
+            mainlead.hideturtle()
+            GAME_ON = False
+            destroyed = True
+
+        # bomb left the screen
+        if bomb.ycor() < -290:
+            destroyed = True
+
+        if destroyed:
+            bomb.hideturtle()
+            bombs.remove(bomb)
+
+
 
 screen.exitonclick()

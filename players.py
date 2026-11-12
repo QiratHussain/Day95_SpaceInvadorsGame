@@ -37,3 +37,20 @@ class Enemy(Turtle):
         
     def move(self, step):
         self.goto(self.xcor() + step, self.ycor())
+    
+    def bomb(self):
+        """Create a bomb just below this enemy and return it."""
+        return Bomb((self.xcor(), self.ycor() - 25))
+
+class Bomb(Turtle):
+    def __init__(self, position):
+        super().__init__()
+        self.shape('circle')
+        self.color('yellow')
+        self.shapesize(0.6, 0.6)
+        self.penup()
+        self.setheading(270)    
+        self.goto(position)
+
+    def move(self):
+        self.forward(15)
