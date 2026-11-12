@@ -1,9 +1,11 @@
 from turtle import Screen
 from players import Player, Brick, Enemy
+import time
 
 BRICKS_POSITIONS= [(275, 0),(250,0), (225,0),(200,0),(175,0), (150,0),(125,0),(100,0),(75,0),(50,0),(25,0),(0,0),
 (-275, 0),(-250,0), (-225,0),(-200,0),(-175,0), (-150,0),(-125,0),(-100,0),(-75,0),(-50,0),(-25,0)]
 ENEMY_POSITIONS= [(+50,+260),(0,+260),(-50,+260)]
+GAME_ON= True
 # -------------------------- SCREEN -----------------------------
 screen= Screen()
 # screen.tracer(0)
@@ -14,15 +16,27 @@ screen.listen()
 
 # -------------------------- PLAYERS -----------------------------
 mainlead= Player()
+enemies= []
 for positions in BRICKS_POSITIONS:
     Brick(position= positions)
+
 for positions in ENEMY_POSITIONS:
-    Enemy(position= positions)
+    enemy= Enemy(position= positions)
+    enemies.append(enemy)
 
 # -------------------------- MOVEMENTS -----------------------------
 screen.onkey(mainlead.move_left,'f')
 screen.onkey(mainlead.move_right,'j')
 
+step = 10
+while GAME_ON:
+    screen.update()
+    time.sleep(0.1)
+    # check the whole group first
+    if any(e.xcor() + step > 200 or e.xcor() + step < -200 for e in enemies):
+        step *= -1
+    for e in enemies:
+        e.move(step)
 
 # TODO: 5. create bombing function
 # TODO: 6. remove the boundary when bomb strikes

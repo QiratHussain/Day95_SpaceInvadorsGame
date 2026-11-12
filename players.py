@@ -1,5 +1,5 @@
 from turtle import Turtle
-
+STEP= 10
 class Player(Turtle):
     def __init__(self):
         super().__init__()
@@ -34,3 +34,6 @@ class Enemy(Turtle):
         self.shape('square')
         self.shapesize(2, 1)
         self.goto(position)
+        
+    def move(self, step):
+        self.goto(self.xcor() + step, self.ycor())
